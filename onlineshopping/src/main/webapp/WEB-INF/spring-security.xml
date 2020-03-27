@@ -1,0 +1,53 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	
+	<!-- Scan the back-end shopping components, so the security config can initialize 
+		the beans in HibernateConfig file such as, in our case; the dataSource -->
+	<context:component-scan base-package="net.hka.shoppingbackend" />
+
+
+	<!-- Adding password encryption bean from spring security API's -->
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+
+	<!-- Excluding the static resources from security -->
+	<http pattern="/resources/**" security="none" />
+
+	<http>
+		<!-- only admin access -->
+		<intercept-url pattern="/manage/**" access="hasAuthority('ADMIN')" />
+		
+		<!-- only user access (who is registered) -->
+		<intercept-url pattern="/cart/**" access="hasAuthority('USER')" />
+		
+		<!-- rest of the world - configure the login/logout page -->
+		<intercept-url pattern="/**" access="permitAll" />
+		<form-login login-page="/login" />
+		<access-denied-handler error-page="/access-denied" />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder ref="passwordEncoder" />
+			<jdbc-user-service data-source-ref="dataSource"
+				authorities-by-username-query="select email, role from user_detail where email = ?"
+				users-by-username-query="select email, password, enabled from user_detail where email = ?" />
+		</authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>

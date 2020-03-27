@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+	
+	<!-- Define the Model Attributes for our Views -->
+	<var name="shipping" class="net.hka.shoppingbackend.dto.Address"/>
+	
+	<!-- Returning and adding inside the flow the composite CheckoutModel instance at start event of the flow -->
+	<on-start>
+		<!-- call the init method in checkoutHandler and sending the current authenticated user name 
+		     which in our case it is the user email  -->
+		<evaluate expression="checkoutHandler.init(currentUser.name)" result="flowScope.checkoutModel"/>
+		
+		<!-- set the title of the flow -->
+		<set name="flowScope.title" value="'Check Out'" />
+	</on-start>
+
+	<!-- ***View States*** -->
+
+	<!-- view the address selection page-->
+	<view-state id="shipping" view="flows/cart/checkout/order-address" model="shipping">
+		<on-entry>
+			<evaluate expression="checkoutHandler.getShippingAddresses(flowScope.checkoutModel)" result="viewScope.addresses"/>	
+		</on-entry>
+		
+		<!-- triggered by "addressSelection" event to move forward to the "saveAddressSelection" action state -->
+		<transition on="addressSelection" to="saveAddressSelection" validate="false"/>
+		
+		<!-- triggered by "saveAddress" event to move forward to the "saveAddress" action state -->
+		<transition on="saveAddress" to="saveAddress" />
+	</view-state>
+
+	<!-- view the payment mode page-->
+	<view-state id="payment" view="flows/cart/checkout/order-payment" model="flowScope.checkoutModel">
+		<!-- triggered by "pay" event to move forward to the "saveOrder" action state -->
+		<transition on="pay" to="saveOrder" />	
+	</view-state>
+
+
+	<!-- ***Action States*** -->
+
+	<!-- action state to save the selected address from user address list (viewScope.addresses)
+		 to the check out model -->
+	<action-state id="saveAddressSelection">
+		<evaluate expression="checkoutHandler.saveAddressSelection(flowScope.checkoutModel, requestParameters.shippingId)" />
+		
+		<!-- triggered by "success" event to move to the "payment" state -->
+		<transition on="success" to="payment" />
+	</action-state>
+	
+	<!-- action state to save the inserted new address (shipping model of shipping view state)
+		 to the check out model -->
+	<action-state id="saveAddress">
+		<evaluate expression="checkoutHandler.saveAddress(flowScope.checkoutModel, shipping)" />
+		
+		<!-- triggered by "success" event to move to the "payment" state -->
+		<transition on="success" to="payment" />
+	</action-state>
+
+	<!-- action state to save the order -->
+	<action-state id="saveOrder">
+		<evaluate expression="checkoutHandler.saveOrder(flowScope.checkoutModel)" />
+		
+		<!-- triggered by "success" event to move to the "receipt" end state -->
+		<transition on="success" to="receipt"/>
+	</action-state>
+	
+	<!-- ***End States***  -->
+	<end-state id="receipt" view="flows/cart/checkout/order-confirm">
+		<on-entry>
+			<evaluate expression="checkoutHandler.getOrderDetail(flowScope.checkoutModel)" result="requestScope.orderDetail"/>
+		</on-entry>
+	</end-state>
+	<end-state id="home" view="externalRedirect:contextRelative:/home" />
+	<end-state id="error" view="flows/shared/flow-error" />
+	
+	<!-- global transition -->
+	<global-transitions>
+		<!-- triggered by "home" event to move to the "home" state from any flow state and end the flow -->
+		<transition on="home" to="home" validate="false" />
+		
+		<!-- triggered by any thrown exception event to move to the "error" state from any flow state and end the flow -->
+ 		<transition on-exception="java.lang.Exception" to="error" />
+	</global-transitions>
+	
+</flow>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Define the Model Attributes for our Views -->
+	<var name="user" class="net.hka.shoppingbackend.dto.User"/>
+	<var name="billing" class="net.hka.shoppingbackend.dto.Address" />
+	
+	<!-- Returning and adding inside the flow the composite RegisterModel instance at start event of the flow -->
+	<on-start>
+		<!-- call the init method in registerHandler -->
+		<evaluate expression="registerHandler.init()" result="flowScope.registerModel" />
+		
+		<!-- set the title of the flow -->
+		<set name="flowScope.title" value="'Membership'" />
+	</on-start>
+	
+	<!-- ***View States*** -->
+	
+	<!-- view the signup-personal page-->
+	<view-state id="personal" view="flows/register/signup-personal" model="user">
+		<!-- triggered by "billing" event to move forward to the "validate" action state -->
+		<transition on="billing" to="validate"/>
+		
+		<!-- add the transition user model to the composite RegisterModel instance at state exit event of the flow -->
+		<on-exit>
+			<!-- call addUser method in registerHandler -->
+			<evaluate expression="registerHandler.addUser(flowScope.registerModel, user)" />
+		</on-exit>
+	</view-state>
+	
+	<!-- view the signup-billing page-->
+	<view-state id="billing" view="flows/register/signup-billing" model="billing">
+		<!-- triggered by "personal" event to move back to the "personal" state -->
+		<transition on="personal" to="personal"/>
+		
+		<!-- triggered by "confirm" event to move forward to the "confirm" state -->
+		<transition on="confirm" to="confirm"/>
+		
+		<!-- add the transition billing model to the composite RegisterModel instance at state exit event of the flow -->
+		<on-exit>
+			<!-- call addBilling method in registerHandler -->
+			<evaluate expression="registerHandler.addBilling(flowScope.registerModel, billing)" />
+		</on-exit>
+	</view-state>
+	
+	<!-- view the signup-confirm page -->	
+	<view-state id="confirm" view="flows/register/signup-confirm" model="flowScope.registerModel">
+		<!-- triggered by "personal" event to move back to the "personal" state -->
+		<transition on="personal" to="personal"/>
+		
+		<!-- triggered by "billing" event to move back to the "billing" state -->
+		<transition on="billing" to="billing"/>
+		
+		<!-- triggered by "submit" event to move to the "submit" action state -->
+		<transition on="submit" to="submit">
+			<set name="flowScope.isSuccessEndState" value="true" />
+		</transition>		
+	</view-state>
+	
+	<!-- ***Action States*** -->
+	
+	<!-- action state to validate signup-personal page-->
+	<action-state id="validate">
+		<evaluate expression="registerHandler.validateUser(user, messageContext)" />
+		
+		<!-- triggered by "success" event to move to the "billing" state -->
+		<transition on="success" to="billing"/>
+		
+		<!-- triggered by "failure" event to move to the "personal" state -->
+		<transition on="failure" to="personal"/>
+	</action-state>
+	
+	<!-- action state to handle the submit action -->
+	<action-state id="submit">
+		<!-- call saveAll method in registerHandler -->
+		<evaluate expression="registerHandler.saveAll(flowScope.registerModel)" />
+		
+		<!-- triggered by "success" event to move to the "success" end state to end the flow -->
+		<transition on="success" to="success">
+			<set name="flowScope.isSuccessEndState" value="true" />
+		</transition>	
+	</action-state>
+	
+	<!-- ***End States***  -->
+	<end-state id="home" view="externalRedirect:contextRelative:/" />
+	<end-state id="success" view="flows/register/signup-success" />
+	<end-state id="error" view="flows/shared/flow-error" />
+	
+	<!-- Global Transitions -->
+	<global-transitions>
+		<!-- triggered by "home" event to move to the "home" state from any flow state and end the flow -->
+		<transition on="home" to="home" validate="false"/>
+		
+		<!-- triggered by any thrown exception event to move to the "error" state from any flow state and end the flow -->
+ 		<transition on-exception="java.lang.Exception" to="error" />
+	</global-transitions>
+	
+</flow>

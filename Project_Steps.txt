@@ -1,3 +1,25 @@
+The "mappedBy" functionality in "Hibernate":
+	youtube project URL: https://www.youtube.com/watch?v=JDvvQftwyr8&list=PLAXbOMavY3k1VJGqqhfqAn0tUSC14Qsvq&index=1
+
+My Comments:
+1. Datatable should be enhanced to get products based on the number of records and all the navigation and search 
+   capabilities should be done on server side/database using AJAX requests. This way the datatable can support a huge number of data.
+   
+ 2. Data caching in JsonDataController and PageController needs to be developed as utility classes.
+ 
+ 
+ Best way to update the documentation
+ /*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.hka.shoppingbackend.dao.ProductDAO#getActiveProductsSortedBy(java.
+	 * lang.String, int)
+	 * 
+	 * Method to return the first five products sorted by parameter count
+	 */
+ 
+
 |-----------------------------------------------------------------
 | Complete Project Step By Step with 
 | Spring, Hibernate, Maven, Angular JS and Bootstrap
@@ -60,7 +82,7 @@ TO BE CONTINUED in PART 02 - Building the user interface in webapp project.
 |-----------------------------------------------------------------
 
 |-----------------------------------------------------------------
-| 01 - Solving Error and Updating for latest versions of servlet
+| 01 - Solving Error and Updating for latest versions of servlet    
 |-----------------------------------------------------------------
 
 1. We will get the error - 
@@ -68,7 +90,8 @@ The superclass "javax.servlet.http.HttpServlet" was not found on the Java Build 
 
 2. We will be using all the latest configuration to work in our project so first we will be changing the version of JRE inside pom.xml 
 
-3. To work with the latest version of servlet change the web.xml file version
+3. To work with the latest version of servlet change the web.xml file version (search for web xml mkyoung) 
+   to update your dynamic web module version in project facets
 
 Right Click on Project -> Maven -> Update Project
 
@@ -80,6 +103,15 @@ Right Click on Project -> Maven -> Update Project
 
 TO BE CONTINUED in PART 02 - 02 - Adding Spring Dependency and Printing a message using Spring WebMvc.
 
+
+My Comments
+mvnrepository.com => javaee-api =>  to added to our pom
+and then from effective pom tab in pom.xml we searched on
+        <plugins>
+	      <plugin>
+	        <artifactId>maven-compiler-plugin</artifactId>
+	        <version>3.1</version>
+to use these xml lines and added to our pom to be able to change the Java JDK version 
 
 
 
@@ -103,6 +135,7 @@ TO BE CONTINUED in PART 02 - 02 - Adding Spring Dependency and Printing a messag
 |-----------------------------------------------------------------
 
 1. Add the spring dependency in the pom.xml file
+	mvnrepository.com => Spring web mvc
 
 2. Configure the FrontController that will intercept all the incoming request first. It would be done inside web.xml
 
@@ -154,6 +187,9 @@ TO BE CONTINUED in PART 02 - 03 - Creating a Spring Bean XML Configuration file 
 
 NOTE: - The name of the file will be the servlet_name-servlet.xml as per the convention else we have to do additional configuration that will be shown later.
 
+		search on spring bean xml configuration file
+		then open https://www.tutorialspoint.com/spring/spring_bean_definition.htm 
+
 2. Configure the ViewResolver inside the dispatcher-servlet to map the logical name to the actual physical filename.
 
 3. Add the apache tomcat server.
@@ -188,11 +224,40 @@ TO BE CONTINUED in PART 02 - 04 - Understanding @RequestParam and @PathVariable
  http://localhost:8080/onlineshopping/test?greeting=welcome
 
 
+	@RequestMapping(value="/test")
+	public ModelAndView test(String greeting) {
+		ModelAndView mv = new ModelAndView("page");
+		mv.addObject("greeting", greeting);	
+		return mv;
+	}
+	
+	@RequestMapping(value="/test")
+	public ModelAndView test(@RequestParam(value = "greeting", required=false) String greeting) {
+		ModelAndView mv = new ModelAndView("page");
+		mv.addObject("greeting", greeting);	
+		return mv;
+	}
+
+
 2. In order to keep the URL clean and make it more SEO friendly we need to access the value from the path for example: -
+		SEO friendly means the search engines can crawl each page on the website efficiently, 
+		interpret the content effectively, and index it in their database. Once indexed, 
+		they can then serve the most relevant and valuable web pages to their users based on the topics they search for
 
  http://localhost:8080/onlineshopping/test/hi
  http://localhost:8080/onlineshopping/test/hello
  http://localhost:8080/onlineshopping/test/welcome
+ 
+ 	@RequestMapping(value="/test/{greeting}")
+	public ModelAndView test(@PathVariable("greeting") String greeting) {
+		ModelAndView mv = new ModelAndView("page");
+		mv.addObject("greeting", greeting);	
+		return mv;
+	}
+
+
+
+
 
 
 TO BE CONTINUED in PART 02 - 05 - Creating Landing Page and Loading Static Resources.
@@ -227,9 +292,10 @@ TO BE CONTINUED in PART 02 - 05 - Creating Landing Page and Loading Static Resou
  --------assets
 
 2. Get the bootstrap js, css and fonts files. Also create the directory for images and place it inside the assets directory created in above step.
+		bootstrap.com
 
 3. Search for unstyled bootstrap starter template.
-
+	
 4. Bootstrap javascript code is dependent on jquery so we will copy that also.
 
 5. In the dispatcher-servlet.xml file we have to add the mvc namespace.
@@ -517,6 +583,9 @@ TO BE CONTINUED in PART 03 - 04 - Getting H2 Database and Hibernate Dependency.
      http://www.h2database.com
 
 2. Select the Generic H2 (Server) and you can create a database of your choice.
+		Note: to run database instance you need to open the login page using the following directory:
+				[H2database installation directory]\bin\h2w.bat -> for windows 
+				[H2database installation directory]\bin\h2.sh -> for linux
 
 NOTE: 
 driver : - org.h2.Driver
@@ -767,10 +836,13 @@ in backend project
 com.fasterxml.jackson.core -> jackson-databind -> 2.8.7
 com.fasterxml.jackson.core -> jackson-annotations -> 2.8.7
 
-2. Create a JsonDataController whose job will be to provide data in JSON format. At the class level we are going to add a RequestMapping of "/json/data" and for method we will add like all/products and category/{id}/products so the entire url will be 
+2. Create a JsonDataController whose job will be to provide data in JSON format. At the class level we are going 
+   to add a RequestMapping of "/json/data" and for method we will add like all/products and category/{id}/products so the entire url will be 
 
     /json/data/all/products and 
     /json/data/category/{id}/products; 
+    
+    as well as we will add @ResponseBody to make the back end project return JSON format by help of jackson  
 
 3. Install the Postman or RestClient extension for Google Chrome & Mozilla firefox respectively.
 
@@ -1128,7 +1200,15 @@ unitPrice,
 quantity, 
 categoryId, 
 
-4. For category we are going to create a method level @ModelAttribute and fetch it.
+4. Set the other fields as hidden fields to use their original values when we are using the same form to edit the product
+<sf:hidden path="id"/>
+<sf:hidden path="code"/>
+<sf:hidden path="active"/>
+<sf:hidden path="supplierId"/>
+<sf:hidden path="purchases"/>
+<sf:hidden path="views"/>
+
+5. For category we are going to create a method level @ModelAttribute and fetch it.
 
 
 TO BE CONTINUED - Part 05 - 03 - Storing Product from Spring form to Database 
@@ -1207,8 +1287,9 @@ TO BE CONTINUED - Part 05 - 04 - Validating Product Details using Hibernate Vali
 List of annotations are :
 @NotNull  - Checks that the annotated value is not null.
 @NotEmpty - Checks whether the annotated element is not null nor empty.
-@NotBlank - Checks that the annotated character sequence is not null and the trimmed length is greater than 0. The difference to @NotEmpty is that this constraint can only be applied on strings and that trailing white-spaces are ignored.
-@Size(min=, max=) - Checks if the annotated element’s size is between min and max (inclusive)
+@NotBlank - Checks that the annotated character sequence is not null and the trimmed length is greater than 0. The difference to @NotEmpty 
+			is that this constraint can only be applied on strings and that trailing white-spaces are ignored.
+@Size(min=, max=) - Checks if the annotated element’s size is between min and max (inclusive) => for collections
 @Max(value=) -  Checks whether the annotated value is less than or equal to the specified maximum
 @Min(value=) - Checks whether the annotated value is higher than or equal to the specified minimum
 @Email - Checks whether the specified character sequence is a valid email address. The optional parameters regexp and flags allow to specify an additional regular expression (including regular expression flags) which the email must match.
@@ -1251,7 +1332,9 @@ StandardServletMultipartResolver – Servlet 3.0 multipart request parsing.
 CommonsMultipartResolver – Classic commons-fileupload.jar
 
 So, we are going to add a bean in the dispatcher-servlet.xml file
-
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+	
 4. Configure the web.xml for uploading file.
 
 fileSizeThreshold: We can specify the size threshold after which the file will be written to disk. The size value is in bytes, so 1024*1024*10 is 10 MB.
@@ -1259,14 +1342,18 @@ location: Directory where files will be stored by default, it’s default value 
 maxFileSize: Maximum size allowed to upload a file, it’s value is provided in bytes. It’s default value is -1L means unlimited.
 maxRequestSize: Maximum size allowed for multipart/form-data request. Default value is -1L that means unlimited.
 
+	<multipart-config>
+		<max-file-size>20848820</max-file-size>
+		<max-request-size>418018841</max-request-size>
+		<file-size-threshold>1048576</file-size-threshold>
+	</multipart-config>
+
 5. Create a separate class for uploading the file.
 
 
 
 
-TO BE CONTINUED - Part 05 - 06 - Adding a new Category
-
-
+TO BE CONTINUED - Part 05 - 06 - Applying custom validator using Spring on file upload
 
 
 
@@ -1283,27 +1370,153 @@ TO BE CONTINUED - Part 05 - 06 - Adding a new Category
 |-----------------------------------------------------------------
 
 |--------------------------------------------------------------------
-| 06 - Adding a new Category
+| 06 - Applying custom validator using Spring on file upload
 |--------------------------------------------------------------------
 
-1. Add a new button that will target a modal dialog box in which we are going to provide an option to add a new category.
- data-toggle 
- data-target
+1. Create a separate validation class which implements the Validator interface of the spring validation api framework.
 
-2. Design the modal dialog box to give an option for creating a category.
+2. Override the validate method and apply checks
+
+3. Modify the POST handler method for managing the product and call this validator explicitly.
+
+4. Add a spring form errors element to the file element in the jsp file "manageProduct.jsp".
+
+5. Let us download and image for product that will be used when there will not be any image available for product. 
+
+	placehold.it/640X480/?text=No Image Available
+
+
+
+TO BE CONTINUED - Part 05 - 07 - Preparing the DataTable for Admin
+
+
+
+|-----------------------------------------------------------------
+| Complete Project Step By Step with 
+| Spring, Hibernate, Maven, Angular JS and Bootstrap
+| - Khozema Nullwala
+|-----------------------------------------------------------------
+
+|-----------------------------------------------------------------
+| Part 05 - Spring form elements, Hibernate Validator 
+|   and Multipart File Upload.
+|-----------------------------------------------------------------
+
+|--------------------------------------------------------------------
+| 07 - Preparing the DataTable for Admin
+|--------------------------------------------------------------------
+1. Code the table and decorate it with bootstrap classes along with the 
+   product fields that we want to display.
    
-3. Add an ModelAttribute for category to link it with the category form.
+   			<table id="adminProductsTable" class="table table-condensed table-bordered">
+							
+				<thead>					
+					<tr>					
+						<th>Id</th>
+						<th>&#160;</th>
+						<th>Name</th>
+						<th>Brand</th>
+						<th>Qty. Avail</th>
+						<th>Unit Price</th>
+						<th>Activate</th>				
+						<th>Edit</th>
+					</tr>					
+				</thead>
+				<tbody>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tbody>
+				<tfoot>
+					<tr>					
+						<th>Id</th>
+						<th>&#160;</th>
+						<th>Name</th>
+						<th>Brand</th>
+						<th>Qty. Avail</th>
+						<th>Unit Price</th>
+						<th>Activate</th>				
+						<th>Edit</th>
+					</tr>									
+				</tfoot>
+				
+							
+			</table>
 
-4. Download the jQuery validate plugin and will work with client side validation for working with category.
+2. Add the following CSS for displaying a toggle switch.
+/*Toggle Switch code*/
 
-5. Will require to write the rules and messages to validate the category form.
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-6. Add a handler to handle form submission of category.
+/* Hide default HTML checkbox */
+.switch input {display:none;}
 
-7. Modify the message in manage/product handler were we are passing the message for displaying the alert message
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+3. Download the bootbox.js library file and add it in the assets folder.
+   Make sure to use the file in the page.jsp.
+   
+4. We will understand the jQuery code for toggle switch and make use of 
+   bootbox.js in our project.
+   
+5. Add another handler method that will return all the products in the json
+   format including the non-active one. So we will have to remove the 
+   @JsonIgnore annotation from Product.java file on is_active field.
+   
+            	
+6. Test it on Postman Extension.
 
 
-TO BE CONTINUED - Part 05 - 07 - Editing a product
+TO BE CONTINUED - Part 05 - 08 - Finalizing the DataTable for Admin
+
+
 
 
 |-----------------------------------------------------------------
@@ -1318,17 +1531,47 @@ TO BE CONTINUED - Part 05 - 07 - Editing a product
 |-----------------------------------------------------------------
 
 |--------------------------------------------------------------------
-| 07 - Editing a product
+| 08 - Finalizing the DataTable for Admin
 |--------------------------------------------------------------------
 
-1. Create a table to be displayed to the admin for all the products available in the website.
+1. Select the table element using jQuery selector and write the specific code.
+
+2. Remove the tbody code that we have added in the previous video.
+
+3. Check if the toggle switch is working as expected.
+
+4. Modify the dataTable code so that toggle switch will work as expected.
 
 
-2. 
+TO BE CONTINUED - Part 05 - 09 - Activating and Deactivating the product using jQuery AJAX 
+
+
+|-----------------------------------------------------------------
+| Complete Project Step By Step with 
+| Spring, Hibernate, Maven, Angular JS and Bootstrap
+| - Khozema Nullwala
+|-----------------------------------------------------------------
+
+|-----------------------------------------------------------------
+| Part 05 - Spring form elements, Hibernate Validator 
+|   and Multipart File Upload.
+|-----------------------------------------------------------------
+
+|--------------------------------------------------------------------
+| 09 - Activating and Deactivating the product using jQuery AJAX
+|--------------------------------------------------------------------
+
+1. Apply the jQuery AJAX function to call the request mapping asynchronously
+in dataTable code we have already added.
+
+2. Create a request mapping that will handle the activation and de-activation
+of the product.
+
+3. Test everything.
 
 
 
-TO BE CONTINUED - Part 05 - 08 - Activating and De-activating a product
+TO BE CONTINUED - Part 05 - 10 - Updating the product detail
 
 
 
@@ -1344,11 +1587,93 @@ TO BE CONTINUED - Part 05 - 08 - Activating and De-activating a product
 |-----------------------------------------------------------------
 
 |--------------------------------------------------------------------
-| 08 - Activating and De-activating a product
+| 10 - Updating the product detail
 |--------------------------------------------------------------------
 
+1. Fetch the product details and display it on the product manage form.
 
-Removed @JsonIgnore from the active field.
+2. Modify the post method to call the respective method of the DAO class
+based on the id
+
+3. Test everything
+
+
+
+TO BE CONTINUED - Part 05 - 11 - Bootstrap Model Dialog Box for Adding Category
+
+
+
+|-----------------------------------------------------------------
+| Complete Project Step By Step with 
+| Spring, Hibernate, Maven, Angular JS and Bootstrap
+| - Khozema Nullwala
+|-----------------------------------------------------------------
+
+|-----------------------------------------------------------------
+| Part 05 - Spring form elements, Hibernate Validator 
+|   and Multipart File Upload.
+|-----------------------------------------------------------------
+
+|--------------------------------------------------------------------
+| 11 - Bootstrap Model Dialog Box for Adding Category
+|--------------------------------------------------------------------
+
+1. Add a new button that will target a modal dialog box in which we are going
+to provide an option to add a new category.
+	data-toggle
+	data-target
+	
+2. Design the modal dialog box to give an option for creating a  category.	
+	div - modal 
+		div - modal-dialog
+			div - modal-content
+				div - modal - header
+					div - modal-body
+					
+3. Create a spring form inside the modal dialog box.
+
+4. Add a ModalAttribute for category in the ManagementController to link it
+with the category form.
+
+5. Add a handler to handle form submission to save category.
+
+6. Test everything.
+
+					
+
+
+TO BE CONTINUED - Part 05 - 12 - Using jQuery Validator for Client Side Validation
+
+
+
+|-----------------------------------------------------------------
+| Complete Project Step By Step with 
+| Spring, Hibernate, Maven, Angular JS and Bootstrap
+| - Khozema Nullwala
+|-----------------------------------------------------------------
+
+|-----------------------------------------------------------------
+| Part 05 - Spring form elements, Hibernate Validator 
+|   and Multipart File Upload.
+|-----------------------------------------------------------------
+
+|--------------------------------------------------------------------
+| 12 - Using jQuery Validator for Client Side Validation
+|--------------------------------------------------------------------
+
+1. Download the jQuery validate plugin and will work with client side 
+validation for working with category.
+
+2. Link it with the page.jsp file.
+
+3. Will require to write the rules and messages to validate the category form.
+For this to work we will select the category form by adding an id to id.
+
+4. Specify the rule and messages that need to be displayed for validation.
+
+
+
+
 
 
 TO BE CONTINUED - Part 06 - User Registration using Spring Webflow
@@ -1571,6 +1896,7 @@ TO BE CONTINUED - Part 06 - 05 - Understanding Spring Webflow
 | 05 - Understanding Spring Webflow
 |--------------------------------------------------------------------
 
+Check the presentation to understand spring webflow
 
 
 
@@ -1630,11 +1956,11 @@ NOTE:
 
 All flows are given IDs (which are ultimately used to reference the flow). The flow ID will be the directory path containing the flow definition file relative to the base path (the part represented with the double-asterisk). 
 
-Path to the flow file           Flow Id
+Path to the flow file           							Flow Id
 ------------------------------------------------------------------------
-/WEB-INF/views/flows/membership/membership-flow.xml      membership    
-/WEB-INF/views/flows/register/signup-flow.xml     register 
-/WEB-INF/views/flows/cart/checkout/checkout-flow.xml  cart/checkout  
+/WEB-INF/views/flows/membership/membership-flow.xml      	membership    
+/WEB-INF/views/flows/register/signup-flow.xml     			register 
+/WEB-INF/views/flows/cart/checkout/checkout-flow.xml  		cart/checkout  
 
 In case if you do not want to use the base path you can use following for indicating the flow file and its id.
 
@@ -1654,22 +1980,27 @@ Or you can be even more explicit about the flow ID by specifying an id attribute
   flow-builder-services="flowBuilderServices" in the registry.
  
  <wf:flow-builder-services id="flowBuilderServices"
-     view-factory-creator="viewFactoryCreatory"
+     view-factory-creator="viewFactoryCreator"
  />
  
-6. Spring Web Flow provides a Spring MVC handler adapter called FlowHandlerAdapter. This handler adapter is the bridge between DispatcherServlet and the flow executor, handling requests and manipulating the flow based on those requests. 
+6. Spring Web Flow provides a Spring MVC handler adapter called FlowHandlerAdapter. This handler adapter is the bridge between DispatcherServlet 
+   and the flow executor, handling requests and manipulating the flow based on those requests. 
  
  <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
   <property name="flowExecutor" ref="flowExecutor" />
  </bean> 
 
-7. DispatcherServlet knows how to dispatch requests by consulting with one or more handler mappings. For web flows, FlowHandlerMapping helps DispatcherServlet know to send flow requests to the FlowHandlerAdapter:
+7. DispatcherServlet knows how to dispatch requests by consulting with one or more handler mappings. For web flows, 
+   FlowHandlerMapping helps DispatcherServlet know to send flow requests to the FlowHandlerAdapter:
 
  <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
   <property name="flowRegistry" ref="flowRegistry" />
+  <property name="order" value="-1" />
  </bean>
 
-Here for any incoming request, the Spring Webflow registry will be checked to see whether any guided flows are configured. That is why we make the order for Spring Webflow ‘-1’.  The flow registry contains all the flows available in the application. If a guided flow is found then the flow executor is initiated.
+Here for any incoming request, the Spring Webflow registry will be checked to see whether any guided flows are configured. 
+That is why we make the order for Spring Webflow '-1'.  The flow registry contains all the flows available in the application. 
+If a guided flow is found then the flow executor is initiated.
 
 
 8. For resolving views for web flow we will add one more bean which will point to the view resolver  - 
@@ -1718,7 +2049,8 @@ Path to the flow file           				  Flow Id
 
 2. Add a menu to the navbar.jsp for registering a new user. We are going to use the flow id in the href along with our contextRoot to start the flow. 
 
-3. To execute the triggered flow we will we need to provide details about the state and view for the flow. It requires the namespace to use different flow elements. For getting the namespace we can refer webflow documentation.
+3. To execute the triggered flow we will we need to provide details about the state and view for the flow. 
+ It requires the namespace to use different flow elements. For getting the namespace we can refer webflow documentation.
 
 http://docs.spring.io/spring-webflow/docs/2.4.4.RELEASE/reference/html/
 
@@ -2140,7 +2472,8 @@ REF: PART 05 - 04 - Validating Product Details using Hibernate Validator
  
 4. Test everything!
 
-5. Write custom validation for checking uniqueness of the email id and also provide an additional field for confirm password. For this we would be creating an action state with an id of validate for personal view state.
+5. Write custom validation for checking uniqueness of the email id and also provide an additional field for confirm password. 
+   For this we would be creating an action state with an id of validate for personal view state.
 
 
 
@@ -2212,7 +2545,34 @@ TO BE CONTINUED - Part 07 - Authentication & Authorization Using Spring Security
 		</dependency>
 
 
-2. Configure the web.xml file to load the spring security configuration file.
+2. Configure the web.xml file to load the spring security configuration file. => you can use spring security reference
+						https://docs.spring.io/spring-security/site/docs/4.1.3.RELEASE/reference/htmlsingle/
+						
+						
+			<!-- ***Configuration for spring security*** -->
+			<!-- Add listener to load the security config file -->
+			<listener>
+				<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+			</listener>
+			
+			<!-- Load spring security config file -->
+			<context-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>
+					/WEB-INF/spring-security.xml
+				</param-value>
+			</context-param>
+		
+			<!-- Spring Security filter -->
+			<filter>
+				<filter-name>springSecurityFilterChain</filter-name>
+				<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+			</filter>
+		
+			<filter-mapping>
+				<filter-name>springSecurityFilterChain</filter-name>
+				<url-pattern>/*</url-pattern>
+			</filter-mapping>			
 
 https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
@@ -2231,6 +2591,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 4. To enable web security all we need to add is the http element.
 
+				<http>
+					<intercept-url pattern="/**" access="hasRole('USER')" />
+					<form-login />
+					<logout />
+				</http>
+
 /*  -----> /abc
 /** -----> /abc/pqr or /abc/pqr/mno or /abc/pqr/mno/xyz or ...
 
@@ -2239,8 +2605,32 @@ Similarly,
 /abc/** ----> /abc/pqr or /abc/mno or /abc/mno/pqr or /abc/pqr/mno/ or ...
 
 5. Provide the authentication manager and authentication provider which uses difference in built services to authenticate and authorize a user.
+			Add in memory authentication manager
+			<authentication-manager>
+				<authentication-provider>
+					<user-service>
+					<user name="justin" password="justinpassword" authorities="ROLE_USER, ROLE_ADMIN" />
+					<user name="jessy" password="jessypassword" authorities="ROLE_USER" />
+					</user-service>
+				</authentication-provider>
+			</authentication-manager>
+
 
 6. Understand the difference between hasRole and hasAuthority 
+			<http>
+				<intercept-url pattern="/**" access="hasAuthority('USER')" />
+				<form-login />
+				<logout />
+			</http>
+			
+			<authentication-manager>
+				<authentication-provider>
+					<user-service>
+					<user name="justin" password="justinpassword" authorities="USER, ADMIN" />
+					<user name="jessy" password="jessypassword" authorities="USER" />
+					</user-service>
+				</authentication-provider>
+			</authentication-manager>
 
 
 TO BE CONTINUED - Part 07 - 02 - Spring Security Using jdbc-user-service  
@@ -2274,14 +2664,18 @@ TO BE CONTINUED - Part 07 - 02 - Spring Security Using jdbc-user-service
 |--------------------------------------------------------------------
 
 1. We will add a new jdbc-user-service element and assign values to the three important attributes of it that is
-data-source-ref
-authorities-by-username-query
-users-by-username-query  
+	data-source-ref
+	authorities-by-username-query
+	users-by-username-query  
 
 NOTE: we will get an error it is not able to find the dataSource bean.
 
 2. Add the context:component-scan of our backend application to the spring-security.xml file and assign a name to the dataSource bean created before.
 
+	As well as xmlns:context="http://www.springframework.org/schema/context"
+	
+	and        http://www.springframework.org/schema/context
+		       http://www.springframework.org/schema/context/spring-context.xsd"
 
 TO BE CONTINUED - Part 07 - 03 - Spring Security With Custom Login Page
 
@@ -2446,17 +2840,21 @@ TO BE CONTINUED - Part 07 - 04 - Handling CSRF In Spring Security
 | 04 - Handling CSRF Using Spring Security 
 |--------------------------------------------------------------------
 
-1. After clicking on the submit we get an error related to CSRF. By default csrf is enabled in spring security and it provides us with protection from CSRF attack right out of the box.
+1. After clicking on the submit we get an error related to CSRF. By default csrf is enabled 
+   in spring security and it provides us with protection from CSRF attack right out of the box.
 
-More can be read at: 
-https://www.incapsula.com/web-application-security/csrf-cross-site-request-forgery.html
+	More can be read at: 
+	https://www.incapsula.com/web-application-security/csrf-cross-site-request-forgery.html
 
-To solve this we either 
-a. disable the csrf protection (not recommended)
-b. or provide an hidden field that will keep the csrf token that only server recognize when the form is submitted.
-
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
+	Because the login page is a plain HTML page and not spring form page, So to solve this we either 
+	a. disable the csrf protection (not recommended) => by adding this line to http in spring-security.xml file
+			<csrf disabled="true"/>
+			
+	b. or provide an hidden field that will keep the csrf token that only server recognize when the form is submitted.
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			
+		Note: this input is added automatically to all spring form pages
+		
 2. To Handle invalid credentials inside the /login request handler. For this we will use the @RequestParam annotation on the login mapping.
 
 
@@ -2529,6 +2927,11 @@ TO BE CONTINUED - Part 07 - 06 - Spring Security Password Encryption
 |--------------------------------------------------------------------
 
 1. Modify the database table to incorporate hashed password using bcrypt mechanism. 
+
+	use: 
+		https://bcrypt-generator.com/ to build up your passwords
+	notice: 
+	    Every time you run the "bcrypt" hash for even same password it generates different password
 
 2. Add a bean element to the spring-security.xml file with the fully qualified name as given below:
 
@@ -2669,7 +3072,23 @@ TO BE CONTINUED - Part 07 - 09 - Spring Security Logout Handling
 | Part 07 - 09 - Spring Security Logout Handling
 |--------------------------------------------------------------------
 
-1. Since CSRF protection is enabled for our application we cannot use the logout filter that we have added inside the spring security file as per the documentation.
+1. Since CSRF protection is enabled for our application we cannot use the logout filter that 
+   we have added inside the spring security file as per the documentation.
+   
+   <http>
+		<!-- only admin access -->
+		<intercept-url pattern="/manage/**" access="hasAuthority('ADMIN')" />
+		
+		<!-- only user access (who is registered) -->
+		<intercept-url pattern="/cart/**" access="hasAuthority('USER')" />
+		
+		<!-- rest of the world - configure the login/logout page -->
+		<intercept-url pattern="/**" access="permitAll" />
+		<form-login login-page="/login" />
+		<access-denied-handler error-page="/access-denied" />
+		
+		<logout /> <!-- We need to remove it, since we enabling CSRF -->
+	</http>
 
 2. We are going to add our own custom logout handler by adding a request mapping and redirecting it again to the login page.
 
@@ -2727,7 +3146,7 @@ TO BE CONTINUED - Part 07 - 10 - Fixing Bug And Making DataTable Responsive
 3. Code the table-responsive class with the overflow-x property
 
 
-				TO BE CONTINUED - Part 08 - Cart Module for User
+TO BE CONTINUED - Part 08 - Cart Module for User
 
 
 
@@ -2821,9 +3240,10 @@ TO BE CONTINUED - Part 08 - 02 - Creating the Cart View
 
 2. Create a jsp file in the views directory with the name of cart.jsp. 
 
-3. Visit bootsnipp.com. It consist of various bootstrap html template code for displaying the cart table you can choose your own. I have choosen one from the below link. Copy the html and css content from it.
+3. Visit bootsnipp.com. It consist of various bootstrap html template code for displaying 
+   the cart table you can choose your own. I have choosen one from the below link. Copy the html and css content from it.
 
-https://bootsnipp.com/snippets/featured/responsive-shopping-cart
+		https://bootsnipp.com/snippets/featured/responsive-shopping-cart
 
 4. Update the icons to use glyphicon.
 
@@ -2869,7 +3289,8 @@ TO BE CONTINUED - Part 08 - 03 - Creating a Service Layer for Cart
 | 03 - Creating a Service Layer for Cart.
 |--------------------------------------------------------------------
 
-1. Create a CartService class in the online shopping project within a service package that will handle the cart logic for us and using the CartLineDAO it will interact with the database.
+1. Create a CartService class in the online shopping project within a service package 
+   that will handle the cart business logic for us and using the CartLineDAO it will interact with the database.
 
 2. We will create a method that will fetch the cart of the user from the session.
 
@@ -3105,8 +3526,6 @@ TO BE CONTINUED - Part 08 - 07 - Adding new item to the CartLine
 
 2. Create a method inside the CartService class to add that product inside the CartLine.
 
-		
-	
 
 3. Handle the response in the showCart method of CartController.
 
@@ -3116,4 +3535,38 @@ TO BE CONTINUED - Part 08 - 07 - Adding new item to the CartLine
 TO BE CONTINUED - Part 08 - 08 - Adding CartLine Case Two
 
 
+
+|-----------------------------------------------------------------
+| Complete Project Step By Step with 
+| Spring, Hibernate, Maven, Angular JS and Bootstrap
+| - Khozema Nullwala
+|-----------------------------------------------------------------
+
+|-----------------------------------------------------------------
+| Part 08 - Cart Module for User
+|-----------------------------------------------------------------
+
+|--------------------------------------------------------------------
+| 08 - Adding New CartLine Case Two 
+|--------------------------------------------------------------------
+	covers up the scenario where the product is already present inside the cart 
+	and it should increase the product count if the add to cart button is clicked once again!
+	When the product is already there inside cart.
+	
+1. Modify the existing method addCartLine() inside the CartService to manage that product
+which user has added to the cart but it's already presented inside the Cart.
+
+	a. Check for existing business logic that we have already applied for not adding more 
+	than 3 products inside any cart line.
+	
+2. Rather than creating a new method we are going to modify the existing 
+updateCartLine() method to handle the modification in cart line that would 
+make the method more efficient as well as we are not going to update 
+the product count if quantity is not available.
+
+3. Handle the different responses in the showCart method of CartController.
+
+
+TO BE CONTINUED - Part 08 - 09 - Validating CartLine Before Checkout
+	 	
 
