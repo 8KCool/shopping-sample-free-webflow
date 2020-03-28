@@ -106,6 +106,7 @@ public class RegisterHandler {
 		return transitionValue;
 	}
 	
+	// return an array for user roles for only role user and role supplier
 	public UserRole[] populateRoles() {
         return new UserRole[] { UserRole.USER, UserRole.SUPPLIER };
     }

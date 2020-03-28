@@ -10,10 +10,10 @@
 	
 	<!-- Returning and adding inside the flow the composite RegisterModel instance at start event of the flow -->
 	<on-start>
-		<!-- call the init method in registerHandler -->
+		<!-- call the init method in registerHandler to return register model -->
 		<evaluate expression="registerHandler.init()" result="flowScope.registerModel" />
 		
-		<!-- call the init method in registerHandler -->
+		<!-- call the populateRoles method in registerHandler to return the user roles enum array -->
 		<evaluate expression="registerHandler.populateRoles()" result="flowScope.userRoles" />
 		
 		<!-- set the title of the flow -->
