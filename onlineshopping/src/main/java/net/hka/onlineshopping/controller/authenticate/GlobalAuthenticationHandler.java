@@ -29,7 +29,7 @@ public class GlobalAuthenticationHandler {
 	private UserModel userModel = null;
 	private User user = null;
 
-	@ModelAttribute("userModel")
+	@ModelAttribute("userModel") 
 	public UserModel getUserModel() {
 		if (session.getAttribute("userModel") == null) {
 			// get the authentication object

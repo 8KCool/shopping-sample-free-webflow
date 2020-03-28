@@ -1,6 +1,6 @@
 package net.hka.onlineshopping.controller.exception;
 
-import java.io.PrintWriter;
+import java.io.PrintWriter; 
 import java.io.StringWriter;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
