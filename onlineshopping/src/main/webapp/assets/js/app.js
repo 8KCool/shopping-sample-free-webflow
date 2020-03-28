@@ -19,6 +19,14 @@ $(function() {
 		});
 	}
 
+	
+	var roleEnum = {
+	    USER: 'USER',
+	    SUPPLIER: 'SUPPLIER',
+	    ADMIN: 'ADMIN'
+	}
+	
+	
 	// solving the active menu problem
 	switch (menu) {
 
@@ -121,10 +129,13 @@ $(function() {
 											+ '"'
 											+ ' class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a> &#160;';
 
+									/*if (typeof (userRole) != 'undefined'
+											&& userRole !== 'ADMIN') {*/
 									if (typeof (userRole) != 'undefined'
-											&& userRole !== 'ADMIN') {
+											&& userRole !== roleEnum.ADMIN) {
 										if (row.quantity < 1) {
-											str += '<a href="javascript:void(0)" class="btn btn-success disabled"><span class="glyphicon glyphicon-shopping-cart"></span></a>';
+											str += '<a href="javascript:void(0)" class="btn btn-success disabled">' +
+														'<span class="glyphicon glyphicon-shopping-cart"></span></a>';
 										} else {
 
 											str += '<a href="'

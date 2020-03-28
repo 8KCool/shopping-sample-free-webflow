@@ -14,6 +14,7 @@ import net.hka.shoppingbackend.dao.UserDAO;
 import net.hka.shoppingbackend.dto.Address;
 import net.hka.shoppingbackend.dto.Cart;
 import net.hka.shoppingbackend.dto.User;
+import net.hka.shoppingbackend.dto.UserRole;
 
 /**
  * This is a bean class to provide the RegisterModel at the start of the
@@ -79,7 +80,8 @@ public class RegisterHandler {
 
 		// create a new cart for a user with role USER
 		User user = registerModel.getUser();
-		if (user.getRole().equals("USER")) {
+		//if (user.getRole().equals("USER")) {
+		if (user.getRole() == UserRole.USER) {
 			// create a new cart
 			Cart cart = new Cart();
 			cart.setUser(user);
@@ -103,5 +105,9 @@ public class RegisterHandler {
 
 		return transitionValue;
 	}
+	
+	public UserRole[] populateRoles() {
+        return new UserRole[] { UserRole.USER, UserRole.SUPPLIER };
+    }
 
 }

@@ -63,7 +63,7 @@
 			</c:choose>
 			
 			
-			<security:authorize access="isAnonymous() or hasAuthority('USER')">	
+			<security:authorize access="isAnonymous() or hasAuthority(T(net.hka.shoppingbackend.dto.UserRole).USER.toString())">	
 				<c:choose>
 					
 					<c:when test="${product.quantity < 1}">
@@ -80,22 +80,34 @@
 					</c:otherwise>
 				
 				</c:choose>
+				
+				<c:if test="${categoryId == 0}">			
+					<a href="${contextRoot}/show/all/products" class="btn btn-warning">
+						Continue Shopping</a>
+				</c:if>
+				<c:if test="${categoryId > 0}">			
+					<a href="${contextRoot}/show/category/${categoryId}/products" class="btn btn-warning">
+						Continue Shopping</a>
+				</c:if>
+				
 			</security:authorize>
 			
 			
-			<security:authorize access="hasAuthority('ADMIN')">
-				<a href="${contextRoot}/manage/product/${product.id}" class="btn btn-warning">
+			<security:authorize access="hasAuthority(T(net.hka.shoppingbackend.dto.UserRole).ADMIN.toString())">
+				<a href="${contextRoot}/manage/product/${product.id}" class="btn btn-primary">
 					<span class="glyphicon glyphicon-pencil"></span> Edit</a>
+					
+				<c:if test="${categoryId == 0}">			
+					<a href="${contextRoot}/show/all/products" class="btn btn-warning">
+						Back</a>
+				</c:if>
+				<c:if test="${categoryId > 0}">			
+					<a href="${contextRoot}/show/category/${categoryId}/products" class="btn btn-warning">
+						Back</a>
+				</c:if>	
 			</security:authorize>	
 					
-			<c:if test="${categoryId == 0}">			
-				<a href="${contextRoot}/show/all/products" class="btn btn-warning">
-					Continue Shopping</a>
-			</c:if>
-			<c:if test="${categoryId > 0}">			
-				<a href="${contextRoot}/show/category/${categoryId}/products" class="btn btn-warning">
-					Continue Shopping</a>
-			</c:if>			
+						
 		</div>
 
 	

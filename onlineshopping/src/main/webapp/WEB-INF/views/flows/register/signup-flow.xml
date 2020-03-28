@@ -13,6 +13,9 @@
 		<!-- call the init method in registerHandler -->
 		<evaluate expression="registerHandler.init()" result="flowScope.registerModel" />
 		
+		<!-- call the init method in registerHandler -->
+		<evaluate expression="registerHandler.populateRoles()" result="flowScope.userRoles" />
+		
 		<!-- set the title of the flow -->
 		<set name="flowScope.title" value="'Membership'" />
 	</on-start>

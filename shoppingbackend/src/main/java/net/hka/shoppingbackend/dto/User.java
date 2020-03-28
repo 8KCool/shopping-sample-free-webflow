@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotBlank;
+
 
 @Entity
 @Table(name = "user_detail")
@@ -42,7 +45,11 @@ public class User implements Serializable {
 	@NotBlank(message = "Please enter contact number!")
 	@Column(name = "contact_number")
 	private String contactNumber;
-	private String role;
+	
+	//private String role;
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
+	
 	@NotBlank(message = "Please enter password!")
 	private String password;
 	private boolean enabled = true;
@@ -110,11 +117,11 @@ public class User implements Serializable {
 		this.contactNumber = contactNumber;
 	}
 
-	public String getRole() {
+	public UserRole getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(UserRole role) {
 		this.role = role;
 	}
 

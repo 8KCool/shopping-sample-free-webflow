@@ -29,10 +29,10 @@
 
 	<http>
 		<!-- only admin access -->
-		<intercept-url pattern="/manage/**" access="hasAuthority('ADMIN')" />
+		<intercept-url pattern="/manage/**" access="hasAuthority(T(net.hka.shoppingbackend.dto.UserRole).ADMIN.toString())" />
 		
 		<!-- only user access (who is registered) -->
-		<intercept-url pattern="/cart/**" access="hasAuthority('USER')" />
+		<intercept-url pattern="/cart/**" access="hasAuthority(T(net.hka.shoppingbackend.dto.UserRole).USER.toString())" />
 		
 		<!-- rest of the world - configure the login/logout page -->
 		<intercept-url pattern="/**" access="permitAll" />

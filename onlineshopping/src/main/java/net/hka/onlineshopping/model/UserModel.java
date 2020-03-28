@@ -3,6 +3,7 @@ package net.hka.onlineshopping.model;
 import java.io.Serializable;
 
 import net.hka.shoppingbackend.dto.Cart;
+import net.hka.shoppingbackend.dto.UserRole;
 
 /**
  * Composite Model to store authenticated user required fields, once the user logs in
@@ -16,13 +17,14 @@ public class UserModel implements Serializable {
 	
 	private int id;
 	private String fullName;
-	private String role;
+	//private String role;
+	private UserRole role;
 	private Cart cart;
 	
-	public String getRole() {
+	public UserRole getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(UserRole role) {
 		this.role = role;
 	}
 	public int getId() {

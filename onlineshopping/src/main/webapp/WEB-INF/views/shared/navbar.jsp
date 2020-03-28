@@ -26,7 +26,7 @@
 				</li>
 				
 				<!-- Manage products menu part. it is available only for administrators -->
-				<security:authorize access="hasAuthority('ADMIN')">
+				<security:authorize access="hasAuthority(T(net.hka.shoppingbackend.dto.UserRole).ADMIN.toString())">
 					<li class="nav-item" id="manageProduct"><a class="nav-link" href="${contextRoot}/manage/product">Manage Product</a>
 					</li>
 				</security:authorize>	
@@ -52,7 +52,7 @@
 						
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 							<!-- cart menu part. it is available only for authorized users -->
-							<security:authorize access="hasAuthority('USER')">
+							<security:authorize access="hasAuthority(T(net.hka.shoppingbackend.dto.UserRole).USER.toString())">
 								<li id="cart">
 									<a href="${contextRoot}/cart/show"> 
 										<span class="glyphicon glyphicon-shopping-cart"></span>&#160;
@@ -74,5 +74,5 @@
 	</div>
 </nav>
 <script>
-	window.userRole = '${userModel.role}';
+	window.userRole = '${userModel.role.value}';	
 </script>

@@ -1,4 +1,4 @@
-package net.hka.onlineshopping.controller.authenticate;
+package net.hka.onlineshopping.controller.security;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import net.hka.onlineshopping.model.UserModel;
 import net.hka.shoppingbackend.dao.UserDAO;
 import net.hka.shoppingbackend.dto.User;
+import net.hka.shoppingbackend.dto.UserRole;
 
 /**
  * Advice controller that is available for all other controllers and requests. 
@@ -46,10 +47,12 @@ public class GlobalAuthenticationHandler {
 					// set the name, the id, and the role
 					userModel.setId(user.getId());
 					userModel.setFullName(user.getFirstName() + " " + user.getLastName());
+					//userModel.setRole(user.getRole());
 					userModel.setRole(user.getRole());
 
 					// set the cart for the user if the user is a buyer
-					if (user.getRole().equals("USER")) {
+					//if (user.getRole().equals("USER")) {
+					if (user.getRole() == UserRole.USER) {
 						userModel.setCart(user.getCart());
 					}
 					

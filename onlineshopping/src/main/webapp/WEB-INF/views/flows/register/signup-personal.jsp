@@ -77,11 +77,18 @@
 						<div class="form-group">
 							<label class="control-label col-md-4">Select Role</label>
 							<div class="col-md-8">
-								<label class="radio-inline"> <sf:radiobutton path="role"
-										value="USER" checked="checked" /> User
-								</label> <label class="radio-inline"> <sf:radiobutton
-										path="role" value="SUPPLIER" /> Supplier
-								</label>
+								<c:forEach var="userRole" items="${userRoles}" varStatus="typeStatus">
+									<label class="radio-inline"> 
+											<c:if test="${typeStatus.count == 1}">
+												<sf:radiobutton path="role" value="${userRole}" checked="checked"/> 
+											</c:if>
+											<c:if test="${typeStatus.count != 1}">
+												<sf:radiobutton path="role" value="${userRole}"/> 
+											</c:if>
+											
+											${userRole.getValueAsLabel()}
+									</label>
+								</c:forEach>
 							</div>
 						</div>
 

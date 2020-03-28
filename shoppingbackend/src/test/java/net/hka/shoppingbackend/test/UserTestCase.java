@@ -10,6 +10,7 @@ import net.hka.shoppingbackend.dao.UserDAO;
 import net.hka.shoppingbackend.dto.Address;
 import net.hka.shoppingbackend.dto.Cart;
 import net.hka.shoppingbackend.dto.User;
+import net.hka.shoppingbackend.dto.UserRole;
 
 public class UserTestCase {
 
@@ -38,7 +39,8 @@ public class UserTestCase {
 		user.setLastName("Roshan");
 		user.setEmail("hr@gmail.com");
 		user.setContactNumber("1234512345");
-		user.setRole("USER");
+		//user.setRole("USER");
+		user.setRole(UserRole.USER);
 		user.setEnabled(true);
 		user.setPassword("12345");
 		
@@ -55,7 +57,8 @@ public class UserTestCase {
 		// linked the address with the user
 		address.setUserId(user.getId());
 		
-		if(user.getRole().equals("USER")) {
+		//if(user.getRole().equals("USER")) {
+		if (user.getRole() == UserRole.USER) {
 			// create cart for the user
 			cart = new Cart();
 			
