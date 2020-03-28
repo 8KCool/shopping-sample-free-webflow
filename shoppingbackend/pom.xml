@@ -20,7 +20,7 @@
 		<h2database.version>1.4.196</h2database.version>
 		<hibernate.version>5.2.7.Final</hibernate.version>
 		<hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
-		<jackson.version>2.8.7</jackson.version>
+		<jackson.version>2.9.10.1</jackson.version>
 		<apache.commons.version>2.1.1</apache.commons.version>		
 		<logback.version>1.2.1</logback.version>
 		<slf4j.version>1.7.24</slf4j.version>
@@ -95,11 +95,11 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
-		</dependency>		
+		</dependency> -->		
 
 
 		<!-- Database Connection Pooling -->
