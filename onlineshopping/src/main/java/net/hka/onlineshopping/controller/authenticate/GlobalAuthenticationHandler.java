@@ -1,4 +1,4 @@
-package net.hka.onlineshopping.controller.advice;
+package net.hka.onlineshopping.controller.authenticate;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +18,7 @@ import net.hka.shoppingbackend.dto.User;
  * so we don't need to do the all actions in every request.
  * */
 @ControllerAdvice
-public class GlobalUserModelSessionController {
+public class GlobalAuthenticationHandler {
 
 	@Autowired
 	private UserDAO userDAO;

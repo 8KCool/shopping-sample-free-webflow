@@ -1,4 +1,4 @@
-package net.hka.onlineshopping.controller.advice;
+package net.hka.onlineshopping.controller.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -16,7 +16,7 @@ import net.hka.shoppingbackend.exception.ProductNotFoundException;
  * and returns the user friendly error message and render this message in the error page.
  * */
 @ControllerAdvice
-public class GlobalDefaultExceptionController {
+public class GlobalDefaultExceptionHandler {
 
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
