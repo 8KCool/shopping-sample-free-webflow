@@ -37,6 +37,10 @@ public class ManagementController {
 	@Autowired
 	private CategoryDAO categoryDAO;
 
+	@Autowired
+	private ProductValidator productValidator;
+	
+	
 	/*
 	 *  Method to load the manage product form page
 	 */
@@ -79,11 +83,11 @@ public class ManagementController {
 
 		// mandatory file upload check in add mode
 		if (mProduct.getId() == 0) {
-			new ProductValidator().validate(mProduct, results);
+			productValidator.validate(mProduct, results);
 		} else {
 			// do check only in edit mode when a file has been selected
 			if (!mProduct.getFile().getOriginalFilename().equals("")) {
-				new ProductValidator().validate(mProduct, results);
+				productValidator.validate(mProduct, results);
 			}
 		}
 

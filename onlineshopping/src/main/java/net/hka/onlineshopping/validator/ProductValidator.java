@@ -1,5 +1,6 @@
 package net.hka.onlineshopping.validator;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -11,8 +12,9 @@ import net.hka.shoppingbackend.dto.Product;
  * side. This is to overcome the lack of DTO validations on this kind of fields,
  * because this kind of validations cannot be accomplished using the regular
  * annotations in DTO class files
- *
+ * 
  */
+@Component
 public class ProductValidator implements Validator {
 
 	@Override
