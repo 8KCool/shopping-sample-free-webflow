@@ -27,12 +27,24 @@
 	<context:component-scan base-package="net.hka.shoppingbackend" />
 	
 
-	<!-- View resolver for both Spring MVC and Spring Webflow -->
+	<!-- JSP+JSTL View resolver for both Spring MVC and Spring Webflow 
+		Parameters:
+		viewClass establishes the class of the View instances. This is needed for a JSP resolver, 
+		          but it will not be needed at all when we’re working with Thymeleaf.
+		prefix and suffix work in a similar way to the attributes of the same names in Thymeleaf’s TemplateResolver objects.
+		order establishes the order in which the ViewResolver will be queried in the chain.
+		viewNames allows the definition (with wildcards) of the view names that will be resolved by this ViewResolver.
+	-->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-
+		<!-- <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" /> -->
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
+		
+		<!-- 
+		<property name="order" value="2" />
+  		<property name="viewNames" value="*jsp" />
+		 -->
 
 	</bean>
 
