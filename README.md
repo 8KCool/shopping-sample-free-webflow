@@ -41,3 +41,7 @@ All what I did is doing some descent amount of enhancements on the project as fo
 	13- Define new exception for cart line and throw it from CartLineDAO.
 	
 	14- Use Java enum to handle user roles in all application by adding new UserRole enum in dto package. 
+	
+	15- In "singleProduct.jsp" and if the user wants to return back to the product lists, I tracked the to view all products or view products by category in case of the user already selected a category.
+	
+	16- In "singleProduct.jsp" the label of the button that used to return back to the product list make it depends on the user role. So in case of administrator the label of the button will be "Back" and in case other roles the label will be "Continue Shopping".    
