@@ -2851,7 +2851,7 @@ TO BE CONTINUED - Part 07 - 04 - Handling CSRF In Spring Security
 	a. disable the csrf protection (not recommended) => by adding this line to http in spring-security.xml file
 			<csrf disabled="true"/>
 			
-	b. or provide an hidden field that will keep the csrf token that only server recognize when the form is submitted.
+	b. or provide a hidden field that will keep the csrf token that only server recognize when the form is submitted.
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			
 		Note: this input is added automatically to all spring form pages
