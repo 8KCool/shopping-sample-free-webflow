@@ -1,4 +1,10 @@
-# online-shopping
+
+<div align="center">
+    <img src="https://media.giphy.com/media/tPjlmJzj9Z99vwF5dV/giphy.gif" width="50" align="right"/> 
+    <img src="https://github.com/devicons/devicon/blob/master/icons/electron/electron-original.svg" width="50" align="left"/> 
+    <h3>shopping sample code using Webflow</h3>
+</div>
+
 ## Project Description
 This is a complete web application project for electronic devices online shopping. There are four main parts to the application: shopping, registering new user, checkout, and administration. 
 
@@ -11,37 +17,6 @@ For the Database, this project using H2Database for simplicity of installation a
 #### Thanks for the original Author
 Here we have to thank Khozema Nullwala on his really great job for building the project as a reference for everybody and you can find the original project in the following GitHub: https://github.com/khozema-nullwala/online-shopping link.
 
-#### Enhancements And Bug Fixing
-All what I did is doing some descent amount of enhancements on the project as follows:
-
-	1- Applying the AOP (Aspect oriented Programming) feature on the project by adding the related dependencies in pom file and do changes in dispatcher-servlet.xml to log all CRUD operations. You can find that in the following new class "net.hka.onlineshopping.aop.DaoCRUDAspect".
-	
-	2- Add missing title in register and chekout webflows by defining flow scope title variable in both xml files for each webflow.
-	
-	3- Solving the issue in register webflow confirm "signup-confirm.jsp" page by hiding the navbar in this page.
-	
-	4- Solving the miss format "order-confirm.jsp" file of chekout webflow and add this page to work on shred folder files.
-	
-	5- Make some code enhancements on CartService and CartController classes.
-	
-	6- Apply the design principle "program to interface" by adding new class "net.hka.onlineshopping.serviceimpl.CartServiceImpl". And converting the original class CartService to an interface.
-	
-	7- Create a new package "net.hka.onlineshopping.controller.security" to hold the moved and renamed the GlobalController advice to the new name GlobalAuthenticationHandler.
-	
-	8- Change in the format of some RequestMapping URL such as in ManagementController class the RequestMapping URL for the manageProductEdit method was @RequestMapping("/{id}/product") and I changed it to ("/product/{id}").
-	
-	9- Change the name of myapp.js to app.js and myapp.css to app.css.
-	
-	10- Add the missing comments in java files, app.js, app.css, checkout-flow.xml, signup-flow.xml, and JSP files.
-	
-	11- Updating in the Project_Steps.txt file by adding the missing steps and parts.
-	
-	12- Make a design enhancement by Throw the ProductNotFoundException from the DAO file.
-	
-	13- Define new exception for cart line and throw it from CartLineDAO.
-	
-	14- Use Java enum to handle user roles in all application by adding new UserRole enum in dto package. 
-	
-	15- In "singleProduct.jsp" and if the user wants to return back to the product lists, I tracked the to view all products or view products by category in case of the user already selected a category.
-	
-	16- In "singleProduct.jsp" the label of the button that used to return back to the product list make it depends on the user role. So in case of administrator the label of the button will be "Back" and in case other roles the label will be "Continue Shopping".    
+#### Description
+<img src="./1.png" width="300" align="right">
+<img src="./2.png" width="300" align="left">
