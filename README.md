@@ -1,11 +1,16 @@
 
 <div align="center">
     <img src="https://media.giphy.com/media/tPjlmJzj9Z99vwF5dV/giphy.gif" width="50" align="right"/> 
-    <img src="https://github.com/devicons/devicon/blob/master/icons/electron/electron-original.svg" width="50" align="left"/> 
+    <img src="https://github.com/devicons/devicon/blob/master/icons/webflow/webflow-original.svg" width="50" align="left"/> 
     <h3>shopping sample code using Webflow</h3>
 </div>
 
-## Project Description
+### FrontEnd
+ - onlineshopping
+
+### BackEnd
+ - shoppingbackend
+
 This is a complete web application project for electronic devices online shopping. There are four main parts to the application: shopping, registering new user, checkout, and administration. 
 
 #### Project Tools
@@ -18,5 +23,5 @@ For the Database, this project using H2Database for simplicity of installation a
 Here we have to thank Khozema Nullwala on his really great job for building the project as a reference for everybody and you can find the original project in the following GitHub: https://github.com/khozema-nullwala/online-shopping link.
 
 #### Description
-<img src="./1.png" width="300" align="right">
-<img src="./2.png" width="300" align="left">
+<img src="./1.png" width="350" align="right">
+<img src="./2.png" width="350" align="left">
